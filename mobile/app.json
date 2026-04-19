@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "EventVault",
+    "slug": "eventvault",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "eventvault",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0c93e7"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.eventvault.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "EventVault needs camera access to take photos for events.",
+        "NSPhotoLibraryUsageDescription": "EventVault needs photo library access to upload photos to events."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0c93e7"
+      },
+      "package": "io.eventvault.app",
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-camera",
+      "expo-image-picker",
+      "expo-barcode-scanner"
+    ]
+  }
+}
