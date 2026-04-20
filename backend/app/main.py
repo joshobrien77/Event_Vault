@@ -1,25 +1,21 @@
-"""
-EventVault — FastAPI Application
-"""
+"""EventVault — FastAPI Application"""
 
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.api import auth, events, links, storage, uploads, guest, billing
+from app.core.exceptions import AppError, app_error_handler, http_exception_handler
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup and shutdown logic."""
     settings = get_settings()
-    # Ensure upload temp directory exists
     Path(settings.UPLOAD_TEMP_DIR).mkdir(parents=True, exist_ok=True)
     yield
-    # Cleanup on shutdown if needed
 
 
 def create_app() -> FastAPI:
@@ -33,7 +29,6 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # CORS
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.CORS_ORIGINS,
@@ -42,7 +37,9 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # Register routers
+    app.add_exception_handler(AppError, app_error_handler)
+    app.add_exception_handler(HTTPException, http_exception_handler)
+
     app.include_router(auth.router, prefix="/api/v1/auth", tags=["Auth"])
     app.include_router(events.router, prefix="/api/v1/events", tags=["Events"])
     app.include_router(links.router, prefix="/api/v1/events", tags=["Event Links"])

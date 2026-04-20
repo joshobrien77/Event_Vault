@@ -178,7 +178,7 @@ class DropboxBackend(StorageBackend):
 
 def get_storage_backend(storage_connection) -> StorageBackend:
     """Factory function to create the appropriate storage backend."""
-    from app.models import StorageType
+    from app.models.models import StorageType
 
     if storage_connection.storage_type == StorageType.S3:
         return S3Backend(
