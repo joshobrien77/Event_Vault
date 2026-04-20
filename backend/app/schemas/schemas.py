@@ -192,6 +192,17 @@ class CheckoutRequest(BaseModel):
     tier: EventTierName
 
 
+# --- Chunked upload ---
+
+class ChunkedUploadInit(BaseModel):
+    filename: str
+    mime_type: str
+    file_size_bytes: int
+    total_chunks: int
+    guest_name: Optional[str] = None
+    pin: Optional[str] = None
+
+
 # --- Generic ---
 
 class PaginatedResponse(BaseModel):
